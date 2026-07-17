@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+dist/
+build/
+
+# Env / secrets
+.env
+
+# Data artifacts (fetched + generated locally; not committed)
+data/pdfs/
+data/parsed/
+data/index/
+data/chunks/
+
+# Keep benchmark outputs committed (results/) but not raw per-question answer dumps
+results/answers/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+
+# Model caches
+.cache/

@@ -1,0 +1,114 @@
+# finrag configuration — every knob for data, chunking, retrieval, models, and eval.
+
+data:
+  financebench_raw: https://raw.githubusercontent.com/patronus-ai/financebench/main
+  dir: data
+  # Companies to ingest. Empty list = auto-pick `num_companies` with the most
+  # answerable questions in the FinanceBench open-source sample.
+  companies: []
+  num_companies: 5
+  max_questions: 40
+
+chunking:
+  naive:
+    chunk_tokens: 512
+    overlap_tokens: 64
+  structured:
+    child_tokens: 350        # small units that get embedded ("embed small")
+    parent_tokens: 2000      # parent section cap returned to the LLM ("retrieve big")
+
+# Strategy matrix for the benchmark. `chunker` picks the pipeline; the boolean
+# flags toggle individual tricks for the ablation study.
+#   atomic_tables / ancestry_headers  -> affect the index (chunk content)
+#   parent_expansion / hybrid_bm25    -> retrieval-time only (reuse the index)
+strategies:
+  naive:
+    chunker: naive
+    hybrid_bm25: false
+  structured:
+    chunker: structured
+    atomic_tables: true
+    ancestry_headers: true
+    parent_expansion: true
+    hybrid_bm25: true
+  # Ablations: full structured minus ONE trick each.
+  ablation_no_atomic_tables:
+    chunker: structured
+    atomic_tables: false
+    ancestry_headers: true
+    parent_expansion: true
+    hybrid_bm25: true
+  ablation_no_headers:
+    chunker: structured
+    atomic_tables: true
+    ancestry_headers: false
+    parent_expansion: true
+    hybrid_bm25: true
+  ablation_no_parent_expansion:
+    chunker: structured
+    atomic_tables: true
+    ancestry_headers: true
+    parent_expansion: false
+    hybrid_bm25: true
+  ablation_no_bm25:
+    chunker: structured
+    atomic_tables: true
+    ancestry_headers: true
+    parent_expansion: true
+    hybrid_bm25: false
+
+index:
+  embedding_model: BAAI/bge-small-en-v1.5
+  persist_dir: data/index
+
+retrieval:
+  top_k: 8
+  rrf_k: 60
+  context_max_tokens: 6000   # total context budget handed to the answer model
+
+llm:
+  temperature: 0.0
+  max_tokens: 1024
+  timeout_s: 120
+  endpoints:
+    - name: lmstudio
+      base_url: http://localhost:1234/v1
+      api_key: lm-studio
+      models: []             # empty = auto-discover via GET /v1/models
+    - name: ollama
+      base_url: http://localhost:11434/v1
+      api_key: ollama
+      models: []
+    - name: llamacpp
+      base_url: http://localhost:8080/v1
+      api_key: none
+      models: []
+    # Cloud endpoints for the later comparison — uncomment and set keys in .env:
+    # - name: openai
+    #   base_url: https://api.openai.com/v1
+    #   api_key_env: OPENAI_API_KEY
+    #   models: [gpt-5-mini]
+    # - name: gemini
+    #   base_url: https://generativelanguage.googleapis.com/v1beta/openai/
+    #   api_key_env: GEMINI_API_KEY
+    #   models: [gemini-2.5-flash]
+    # - name: anthropic
+    #   base_url: https://api.anthropic.com/v1/
+    #   api_key_env: ANTHROPIC_API_KEY
+    #   models: [claude-haiku-4-5]
+
+# Table summaries at ingest. Falls back to a rule-based summary (section path +
+# caption + column headers) when the endpoint is unreachable, so ingestion
+# never requires a live model.
+summaries:
+  endpoint: lmstudio
+  model: null                # null = first model discovered on the endpoint
+
+# The judge grades stored answers in a separate pass — re-run `finrag judge`
+# with a stronger model later without regenerating answers.
+judge:
+  endpoint: lmstudio
+  model: null
+
+eval:
+  results_dir: results
