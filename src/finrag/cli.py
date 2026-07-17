@@ -107,7 +107,12 @@ def eval(
         refs = [tuple(m.split("/", 1)) for m in model]
     else:
         live = discover(cfg.llm)
-        refs = [(ep, m) for ep, ms in live.items() for m in ms]
+        refs = [
+            (ep, m)
+            for ep, ms in live.items()
+            for m in ms
+            if "embed" not in m.lower()  # embedding models can't chat
+        ]
     if not refs:
         typer.echo("No models to run. Start a local LLM server or pass --model endpoint/model.")
         raise typer.Exit(1)

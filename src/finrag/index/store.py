@@ -15,10 +15,11 @@ from finrag.chunk.models import Chunk, ChunkSet
 # bge-family models want this prefix on queries (not on passages)
 BGE_QUERY_PREFIX = "Represent this sentence for searching relevant passages: "
 
-_WORD_RE = re.compile(r"[a-z0-9]+(?:\.[0-9]+)?")
+_WORD_RE = re.compile(r"[a-z]+|[0-9]+(?:\.[0-9]+)?")
 
 
 def bm25_tokenize(text: str) -> list[str]:
+    # letters and digits split apart so "FY2023" matches "2023" in tables
     return _WORD_RE.findall(text.lower())
 
 

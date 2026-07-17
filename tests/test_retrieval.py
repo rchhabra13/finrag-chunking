@@ -1,5 +1,12 @@
 from finrag.eval.judge import parse_verdict
+from finrag.index.store import bm25_tokenize
 from finrag.retrieve import rrf_fuse
+
+
+def test_bm25_tokenizer_splits_year_prefixes():
+    assert "2023" in bm25_tokenize("What was revenue in FY2023?")
+    assert bm25_tokenize("$14,694 million") == ["14", "694", "million"]
+    assert "10" in bm25_tokenize("10-K") and "k" in bm25_tokenize("10-K")
 
 
 def test_rrf_prefers_agreement():

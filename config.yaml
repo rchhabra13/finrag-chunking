@@ -101,14 +101,14 @@ llm:
 # caption + column headers) when the endpoint is unreachable, so ingestion
 # never requires a live model.
 summaries:
-  endpoint: lmstudio
-  model: null                # null = first model discovered on the endpoint
+  endpoint: ollama
+  model: qwen2.5:3b                # null = first model discovered on the endpoint
 
 # The judge grades stored answers in a separate pass — re-run `finrag judge`
 # with a stronger model later without regenerating answers.
 judge:
-  endpoint: lmstudio
-  model: null
+  endpoint: ollama
+  model: qwen2.5:3b
 
 eval:
   results_dir: results

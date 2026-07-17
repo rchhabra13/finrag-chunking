@@ -82,8 +82,11 @@ def chunk_structured(
             if b.kind == "table" and atomic_tables:
                 flush_prose()
                 summary = summarize_table(b.text, b.caption, path)
+                # embed = summary + head of the real table, so dense search gets
+                # the semantics and BM25 gets exact row labels and figures
+                embed = f"{summary}\n{truncate_tokens(b.text, 150)}"
                 payload = f"{b.caption}\n{b.text}" if b.caption else b.text
-                add("table", summary, payload, path, parent_id)
+                add("table", embed, payload, path, parent_id)
             else:
                 # table treated as plain prose when atomic_tables is ablated off
                 prose.append(b.text)
