@@ -17,7 +17,7 @@ from typing import Callable
 
 from finrag.chunk.models import Chunk, ChunkSet
 from finrag.config import StructuredChunkConfig
-from finrag.parse.tree import DocumentTree, Section
+from finrag.parse.tree import ROOT_TITLE, DocumentTree
 from finrag.util import n_tokens, truncate_tokens, window_tokens
 
 # (table_markdown, caption, section_path) -> one-paragraph summary
@@ -61,7 +61,7 @@ def chunk_structured(
     for sec, path_list in tree.walk():
         if not sec.blocks:
             continue
-        path = " > ".join(path_list)
+        path = " > ".join(t for t in path_list if t != ROOT_TITLE) or "front matter"
         parent_id = f"{tree.doc_name}:{sec.id}"
 
         # Parent = the whole section as the LLM would want to read it.

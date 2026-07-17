@@ -14,6 +14,8 @@ from typing import Iterator, Literal
 
 BlockKind = Literal["paragraph", "table"]
 
+ROOT_TITLE = "(document start)"  # pseudo-section for pre-header content
+
 
 @dataclass
 class Block:

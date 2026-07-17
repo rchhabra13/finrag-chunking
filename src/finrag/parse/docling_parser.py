@@ -15,7 +15,7 @@ from pathlib import Path
 from docling.document_converter import DocumentConverter
 from docling_core.types.doc import DocItemLabel, TableItem, TextItem
 
-from finrag.parse.tree import Block, DocumentTree, Section
+from finrag.parse.tree import ROOT_TITLE, Block, DocumentTree, Section
 
 ITEM_RE = re.compile(r"^item\s+\d{1,2}[a-c]?\b", re.IGNORECASE)
 
@@ -35,7 +35,7 @@ def parse_pdf(pdf_path: Path, doc_name: str, company: str) -> DocumentTree:
 
     tree = DocumentTree(doc_name=doc_name, company=company)
     # Preamble section catches content before the first header.
-    stack: list[Section] = [Section(id="s0", title="(document start)", level=0)]
+    stack: list[Section] = [Section(id="s0", title=ROOT_TITLE, level=0)]
     tree.sections.append(stack[0])
     sec_n = block_n = 0
     last_para = ""  # candidate table caption

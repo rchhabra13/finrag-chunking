@@ -8,14 +8,14 @@ from __future__ import annotations
 
 from finrag.chunk.models import Chunk, ChunkSet
 from finrag.config import NaiveChunkConfig
-from finrag.parse.tree import DocumentTree
+from finrag.parse.tree import ROOT_TITLE, DocumentTree
 from finrag.util import window_tokens
 
 
 def chunk_naive(tree: DocumentTree, cfg: NaiveChunkConfig) -> ChunkSet:
     parts: list[str] = []
     for sec, _path in tree.walk():
-        if sec.title and sec.title != "(document start)":
+        if sec.title and sec.title != ROOT_TITLE:
             parts.append(sec.title)
         for b in sec.blocks:
             parts.append(b.text)
