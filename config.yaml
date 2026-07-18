@@ -83,7 +83,12 @@ llm:
       base_url: http://localhost:8080/v1
       api_key: none
       models: []
-    # Cloud endpoints for the later comparison — uncomment and set keys in .env:
+    # Cloud endpoints (same OpenAI-compatible interface) — set keys in .env:
+    - name: anthropic
+      base_url: https://api.anthropic.com/v1/
+      api_key_env: ANTHROPIC_API_KEY
+      models: [claude-fable-5]
+      omit_sampling_params: true   # Fable 5 / Opus 4.7+ reject temperature/top_p
     # - name: openai
     #   base_url: https://api.openai.com/v1
     #   api_key_env: OPENAI_API_KEY
@@ -92,10 +97,6 @@ llm:
     #   base_url: https://generativelanguage.googleapis.com/v1beta/openai/
     #   api_key_env: GEMINI_API_KEY
     #   models: [gemini-2.5-flash]
-    # - name: anthropic
-    #   base_url: https://api.anthropic.com/v1/
-    #   api_key_env: ANTHROPIC_API_KEY
-    #   models: [claude-haiku-4-5]
 
 # Table summaries at ingest. Falls back to a rule-based summary (section path +
 # caption + column headers) when the endpoint is unreachable, so ingestion

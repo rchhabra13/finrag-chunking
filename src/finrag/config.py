@@ -86,6 +86,8 @@ class EndpointConfig(BaseModel):
     api_key: str | None = None
     api_key_env: str | None = None
     models: list[str] = Field(default_factory=list)
+    # Anthropic's newest models (Fable 5, Opus 4.7+) reject temperature/top_p
+    omit_sampling_params: bool = False
 
     def resolve_key(self) -> str:
         if self.api_key_env:

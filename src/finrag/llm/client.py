@@ -42,15 +42,17 @@ class LLM:
         max_tokens: int | None = None,
     ) -> ChatResult:
         t0 = time.perf_counter()
-        resp = self.client.chat.completions.create(
-            model=model,
-            messages=[
+        kwargs: dict = {
+            "model": model,
+            "messages": [
                 {"role": "system", "content": system},
                 {"role": "user", "content": user},
             ],
-            temperature=self.cfg.temperature if temperature is None else temperature,
-            max_tokens=self.cfg.max_tokens if max_tokens is None else max_tokens,
-        )
+            "max_tokens": self.cfg.max_tokens if max_tokens is None else max_tokens,
+        }
+        if not self.ep.omit_sampling_params:
+            kwargs["temperature"] = self.cfg.temperature if temperature is None else temperature
+        resp = self.client.chat.completions.create(**kwargs)
         usage = resp.usage
         return ChatResult(
             text=resp.choices[0].message.content or "",
