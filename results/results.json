@@ -202,6 +202,31 @@
     },
     {
       "strategy": "naive",
+      "endpoint": "chat",
+      "model": "claude-fable-5",
+      "n": 40,
+      "correct": 16,
+      "incorrect": 10,
+      "refusal": 14,
+      "error": 0,
+      "accuracy": 0.4,
+      "by_question_type": {
+        "metrics-generated": {
+          "n": 7,
+          "accuracy": 0.143
+        },
+        "domain-relevant": {
+          "n": 19,
+          "accuracy": 0.474
+        },
+        "novel-generated": {
+          "n": 14,
+          "accuracy": 0.429
+        }
+      }
+    },
+    {
+      "strategy": "naive",
       "endpoint": "ollama",
       "model": "llama3.2:3b",
       "n": 40,
@@ -247,6 +272,31 @@
         "novel-generated": {
           "n": 14,
           "accuracy": 0.357
+        }
+      }
+    },
+    {
+      "strategy": "structured",
+      "endpoint": "chat",
+      "model": "claude-fable-5",
+      "n": 40,
+      "correct": 14,
+      "incorrect": 17,
+      "refusal": 9,
+      "error": 0,
+      "accuracy": 0.35,
+      "by_question_type": {
+        "metrics-generated": {
+          "n": 7,
+          "accuracy": 0.286
+        },
+        "domain-relevant": {
+          "n": 19,
+          "accuracy": 0.316
+        },
+        "novel-generated": {
+          "n": 14,
+          "accuracy": 0.429
         }
       }
     },

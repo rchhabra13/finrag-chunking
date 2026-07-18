@@ -52,12 +52,29 @@ qwen2.5:3b against gold answers. Fully local, $0 in API costs.
 |---|---|---|---|
 | llama3.2:3b | 12.5% | 17.5% | **+5.0 pts** |
 | qwen2.5:3b | 25.0% | 32.5% | **+7.5 pts** |
+| claude-fable-5 (in-chat) | 40.0% | 35.0% | −5.0 pts* |
 
 ![accuracy by model](results/charts/accuracy_by_model.png)
 
-Structure-aware chunking beats the naive baseline on both models. (For
-calibration: the FinanceBench paper's GPT-4 + shared-vector-store baseline
-scored ~19% — same ballpark as our naive runs.)
+Structure-aware chunking beats the naive baseline on both small local models.
+(For calibration: the FinanceBench paper's GPT-4 + shared-vector-store
+baseline scored ~19% — same ballpark as our naive runs.)
+
+**\*The strong-model twist.** Claude Fable 5 answered the same 80
+(question, retrieved-context) pairs — run in a Claude Code session over the
+pipeline's exact contexts rather than via API, graded by the same qwen2.5:3b
+judge. Its scores dwarf the 3B models on both strategies, but the
+naive-vs-structured gap *disappears* (the −5 pt inversion is within noise:
+on at least 4 questions the judge returned opposite verdicts for
+near-identical answer texts, and n=40). Two honest observations survive the
+noise: a strong reader can extract answers from raw, header-less naive table
+fragments that sink a 3B model, so chunking quality matters most when the
+answer model is weak; and naive contexts made Fable *abstain* more (14
+"insufficient evidence" refusals vs 9 under structured) — structured
+retrieval more often gave it enough evidence to attempt an answer. Each
+strategy also won real retrieval head-to-heads the other lost (structured
+found the cash-flow capex table; naive happened to contain the balance-sheet
+PP&E line).
 
 **My favorite failure.** Asked for Amcor's FY2023 revenue, the structured
 pipeline answers *"$14,694 million"*. The naive pipeline answers

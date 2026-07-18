@@ -27,3 +27,6 @@ results/judged/
 
 # Model caches
 .cache/
+
+# In-chat eval scratch: contains FinanceBench questions (CC BY-NC)
+data/chat_eval/
