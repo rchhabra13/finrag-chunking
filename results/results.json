@@ -1,0 +1,304 @@
+{
+  "runs": [
+    {
+      "strategy": "ablation_no_atomic_tables",
+      "endpoint": "ollama",
+      "model": "llama3.2:3b",
+      "n": 40,
+      "correct": 6,
+      "incorrect": 26,
+      "refusal": 8,
+      "error": 0,
+      "accuracy": 0.15,
+      "by_question_type": {
+        "metrics-generated": {
+          "n": 7,
+          "accuracy": 0.143
+        },
+        "domain-relevant": {
+          "n": 19,
+          "accuracy": 0.158
+        },
+        "novel-generated": {
+          "n": 14,
+          "accuracy": 0.143
+        }
+      }
+    },
+    {
+      "strategy": "ablation_no_atomic_tables",
+      "endpoint": "ollama",
+      "model": "qwen2.5:3b",
+      "n": 40,
+      "correct": 15,
+      "incorrect": 11,
+      "refusal": 14,
+      "error": 0,
+      "accuracy": 0.375,
+      "by_question_type": {
+        "metrics-generated": {
+          "n": 7,
+          "accuracy": 0.143
+        },
+        "domain-relevant": {
+          "n": 19,
+          "accuracy": 0.368
+        },
+        "novel-generated": {
+          "n": 14,
+          "accuracy": 0.5
+        }
+      }
+    },
+    {
+      "strategy": "ablation_no_bm25",
+      "endpoint": "ollama",
+      "model": "llama3.2:3b",
+      "n": 40,
+      "correct": 8,
+      "incorrect": 25,
+      "refusal": 7,
+      "error": 0,
+      "accuracy": 0.2,
+      "by_question_type": {
+        "metrics-generated": {
+          "n": 7,
+          "accuracy": 0.143
+        },
+        "domain-relevant": {
+          "n": 19,
+          "accuracy": 0.211
+        },
+        "novel-generated": {
+          "n": 14,
+          "accuracy": 0.214
+        }
+      }
+    },
+    {
+      "strategy": "ablation_no_bm25",
+      "endpoint": "ollama",
+      "model": "qwen2.5:3b",
+      "n": 40,
+      "correct": 8,
+      "incorrect": 16,
+      "refusal": 16,
+      "error": 0,
+      "accuracy": 0.2,
+      "by_question_type": {
+        "metrics-generated": {
+          "n": 7,
+          "accuracy": 0.143
+        },
+        "domain-relevant": {
+          "n": 19,
+          "accuracy": 0.211
+        },
+        "novel-generated": {
+          "n": 14,
+          "accuracy": 0.214
+        }
+      }
+    },
+    {
+      "strategy": "ablation_no_headers",
+      "endpoint": "ollama",
+      "model": "llama3.2:3b",
+      "n": 40,
+      "correct": 5,
+      "incorrect": 23,
+      "refusal": 12,
+      "error": 0,
+      "accuracy": 0.125,
+      "by_question_type": {
+        "metrics-generated": {
+          "n": 7,
+          "accuracy": 0.0
+        },
+        "domain-relevant": {
+          "n": 19,
+          "accuracy": 0.105
+        },
+        "novel-generated": {
+          "n": 14,
+          "accuracy": 0.214
+        }
+      }
+    },
+    {
+      "strategy": "ablation_no_headers",
+      "endpoint": "ollama",
+      "model": "qwen2.5:3b",
+      "n": 40,
+      "correct": 10,
+      "incorrect": 15,
+      "refusal": 15,
+      "error": 0,
+      "accuracy": 0.25,
+      "by_question_type": {
+        "metrics-generated": {
+          "n": 7,
+          "accuracy": 0.143
+        },
+        "domain-relevant": {
+          "n": 19,
+          "accuracy": 0.263
+        },
+        "novel-generated": {
+          "n": 14,
+          "accuracy": 0.286
+        }
+      }
+    },
+    {
+      "strategy": "ablation_no_parent_expansion",
+      "endpoint": "ollama",
+      "model": "llama3.2:3b",
+      "n": 40,
+      "correct": 6,
+      "incorrect": 30,
+      "refusal": 4,
+      "error": 0,
+      "accuracy": 0.15,
+      "by_question_type": {
+        "metrics-generated": {
+          "n": 7,
+          "accuracy": 0.143
+        },
+        "domain-relevant": {
+          "n": 19,
+          "accuracy": 0.105
+        },
+        "novel-generated": {
+          "n": 14,
+          "accuracy": 0.214
+        }
+      }
+    },
+    {
+      "strategy": "ablation_no_parent_expansion",
+      "endpoint": "ollama",
+      "model": "qwen2.5:3b",
+      "n": 40,
+      "correct": 9,
+      "incorrect": 11,
+      "refusal": 20,
+      "error": 0,
+      "accuracy": 0.225,
+      "by_question_type": {
+        "metrics-generated": {
+          "n": 7,
+          "accuracy": 0.0
+        },
+        "domain-relevant": {
+          "n": 19,
+          "accuracy": 0.263
+        },
+        "novel-generated": {
+          "n": 14,
+          "accuracy": 0.286
+        }
+      }
+    },
+    {
+      "strategy": "naive",
+      "endpoint": "ollama",
+      "model": "llama3.2:3b",
+      "n": 40,
+      "correct": 5,
+      "incorrect": 26,
+      "refusal": 9,
+      "error": 0,
+      "accuracy": 0.125,
+      "by_question_type": {
+        "metrics-generated": {
+          "n": 7,
+          "accuracy": 0.143
+        },
+        "domain-relevant": {
+          "n": 19,
+          "accuracy": 0.053
+        },
+        "novel-generated": {
+          "n": 14,
+          "accuracy": 0.214
+        }
+      }
+    },
+    {
+      "strategy": "naive",
+      "endpoint": "ollama",
+      "model": "qwen2.5:3b",
+      "n": 40,
+      "correct": 10,
+      "incorrect": 14,
+      "refusal": 16,
+      "error": 0,
+      "accuracy": 0.25,
+      "by_question_type": {
+        "metrics-generated": {
+          "n": 7,
+          "accuracy": 0.143
+        },
+        "domain-relevant": {
+          "n": 19,
+          "accuracy": 0.211
+        },
+        "novel-generated": {
+          "n": 14,
+          "accuracy": 0.357
+        }
+      }
+    },
+    {
+      "strategy": "structured",
+      "endpoint": "ollama",
+      "model": "llama3.2:3b",
+      "n": 40,
+      "correct": 7,
+      "incorrect": 25,
+      "refusal": 8,
+      "error": 0,
+      "accuracy": 0.175,
+      "by_question_type": {
+        "metrics-generated": {
+          "n": 7,
+          "accuracy": 0.429
+        },
+        "domain-relevant": {
+          "n": 19,
+          "accuracy": 0.053
+        },
+        "novel-generated": {
+          "n": 14,
+          "accuracy": 0.214
+        }
+      }
+    },
+    {
+      "strategy": "structured",
+      "endpoint": "ollama",
+      "model": "qwen2.5:3b",
+      "n": 40,
+      "correct": 13,
+      "incorrect": 18,
+      "refusal": 9,
+      "error": 0,
+      "accuracy": 0.325,
+      "by_question_type": {
+        "metrics-generated": {
+          "n": 7,
+          "accuracy": 0.143
+        },
+        "domain-relevant": {
+          "n": 19,
+          "accuracy": 0.316
+        },
+        "novel-generated": {
+          "n": 14,
+          "accuracy": 0.429
+        }
+      }
+    }
+  ]
+}

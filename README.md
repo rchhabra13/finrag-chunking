@@ -44,7 +44,56 @@ flowchart LR
 
 ## Results
 
-> Benchmark in progress — table + charts land here.
+Setup: 40 questions from the [FinanceBench open-source sample](https://github.com/patronus-ai/financebench)
+(5 companies, 16 filings), answered by local models via Ollama, judged by
+qwen2.5:3b against gold answers. Fully local, $0 in API costs.
+
+| Model | Naive chunking | Structured chunking | Δ |
+|---|---|---|---|
+| llama3.2:3b | 12.5% | 17.5% | **+5.0 pts** |
+| qwen2.5:3b | 25.0% | 32.5% | **+7.5 pts** |
+
+![accuracy by model](results/charts/accuracy_by_model.png)
+
+Structure-aware chunking beats the naive baseline on both models. (For
+calibration: the FinanceBench paper's GPT-4 + shared-vector-store baseline
+scored ~19% — same ballpark as our naive runs.)
+
+**My favorite failure.** Asked for Amcor's FY2023 revenue, the structured
+pipeline answers *"$14,694 million"*. The naive pipeline answers
+*"$14.694 million"* — off by three orders of magnitude, because its chunk
+sliced the income statement away from the header that says *($ in millions)*.
+That is the quietly-wrong failure mode this whole repo exists to kill.
+
+### Ablations — which trick carries the points?
+
+Full structured pipeline minus one trick at a time (mean over both models):
+
+| Configuration | Accuracy | vs full structured |
+|---|---|---|
+| **structured (full)** | **25.0%** | — |
+| − atomic tables | 26.3% | +1.3 |
+| − BM25 hybrid | 20.0% | −5.0 |
+| − ancestry headers | 18.8% | −6.2 |
+| − parent expansion | 18.8% | −6.2 |
+| naive baseline | 18.8% | −6.2 |
+
+![ablation](results/charts/ablation.png)
+
+Removing **ancestry headers**, **parent expansion**, or **BM25** each drops
+accuracy back to roughly the naive baseline — those three carry the gains at
+this scale. **Atomic tables** measured neutral here, with a plausible
+explanation: when a split table's fragments are retrieved, parent expansion
+reassembles the surrounding section anyway, and 3B models are weak at reading
+long markdown tables regardless of how intact they are. The article's claim
+that atomic tables matter most was made with much stronger answer models —
+re-running this matrix with bigger models is one `config.yaml` edit away.
+
+**Honest caveats:** n=40, two 3B answer models, a 3B judge, single run. Treat
+these as directional, not definitive. Your local runs store every raw answer
+under `results/answers/` (kept out of git — FinanceBench data is CC BY-NC), so
+you can re-judge with a stronger model (`finrag judge --model ...`) without
+re-running generation — full tables in [results/results.md](results/results.md).
 
 ## Quickstart
 

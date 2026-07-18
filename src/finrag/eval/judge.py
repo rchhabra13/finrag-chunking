@@ -38,6 +38,8 @@ def parse_verdict(raw: str) -> tuple[str, str]:
         except json.JSONDecodeError:
             pass
     low = raw.lower()
+    if "insufficient evidence" in low:  # judges sometimes invent this as a verdict
+        return "refusal", raw.strip()[:200]
     for v in VERDICTS:  # fallback: first verdict word present ("correct" must not
         if re.search(rf"\b{v}\b", low):  # match inside "incorrect", hence \b)
             return v, raw.strip()[:200]

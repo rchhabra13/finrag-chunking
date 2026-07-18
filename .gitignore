@@ -15,8 +15,10 @@ data/parsed/
 data/index/
 data/chunks/
 
-# Keep benchmark outputs committed (results/) but not raw per-question answer dumps
+# Keep aggregate benchmark outputs committed (results.json/md, charts) but not
+# per-question dumps — they embed FinanceBench questions/gold answers (CC BY-NC)
 results/answers/
+results/judged/
 
 # OS / editor
 .DS_Store
