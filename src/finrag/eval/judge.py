@@ -9,7 +9,6 @@ from __future__ import annotations
 
 import json
 import re
-from pathlib import Path
 
 from finrag.config import Config
 from finrag.llm.client import LLM, discover
@@ -68,11 +67,11 @@ def run_judge(cfg: Config, model_override: str | None = None, log=print) -> None
     for apath in sorted(answers_dir.glob("*.jsonl")):
         jpath = judged_dir / apath.name
         done = (
-            {json.loads(l)["qid"] for l in jpath.read_text().splitlines() if l.strip()}
+            {json.loads(ln)["qid"] for ln in jpath.read_text().splitlines() if ln.strip()}
             if jpath.exists()
             else set()
         )
-        records = [json.loads(l) for l in apath.read_text().splitlines() if l.strip()]
+        records = [json.loads(ln) for ln in apath.read_text().splitlines() if ln.strip()]
         todo = [r for r in records if r["qid"] not in done]
         if not todo:
             continue
@@ -103,5 +102,5 @@ def load_judged(cfg: Config) -> list[dict]:
     judged_dir = cfg.eval.results_dir / "judged"
     records: list[dict] = []
     for p in sorted(judged_dir.glob("*.jsonl")):
-        records.extend(json.loads(l) for l in p.read_text().splitlines() if l.strip())
+        records.extend(json.loads(ln) for ln in p.read_text().splitlines() if ln.strip())
     return records
